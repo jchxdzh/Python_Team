@@ -1,0 +1,46 @@
+from sympy import *
+import matplotlib.pyplot as plt
+def solve_function(x):
+#返回fx
+    return x*exp(x)-1
+
+def dichotomy(left, right,eps):
+#二分迭代
+    middle = (left+right)/2
+    count=0 # 统计迭代次数
+    while abs(solve_function(middle))>eps:
+        middle = (left+right)/2
+        if solve_function(left)*solve_function(middle)<=0:
+            right=middle
+        else:
+            left=middle
+        count=count+1
+    return count,middle
+def nums():
+#输入边界
+    left=float(input('please input left:'))
+    right=float(input('please input right:'))
+    eps=float(input('please input eps:'))
+    return left,right,eps
+print('''left is 区间[a,b]中的a
+       right is 区间[a,b]中的b
+       eps is精度''')
+while True:
+#要求格式正确
+    try:
+        left,right,eps = nums()
+        if solve_function(left)*solve_function(right)==0:
+            if solve_function(left)==0:
+                print("根是{}".format(left))
+                continue
+            else:
+                print('根是{}'.format(right))
+                continue
+        elif solve_function(left)*solve_function(right)>0:
+            ex = print('left--right没有根，请重新输入')
+            raise ex
+        break
+    except:
+        print("input error,please input again")
+count,middle=dichotomy(left, right,eps)
+print("迭代%d次得到的根是%f" %(count,middle))
